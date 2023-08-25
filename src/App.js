@@ -1,10 +1,9 @@
 import React from "react";
+import MainPage from "./pages/MainPage.tsx"
 
 const App = () =>{
   return (
-    <h1>
-      Pixel Painter
-    </h1>
+    <MainPage />
   )
 }
 
