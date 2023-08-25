@@ -1,0 +1,27 @@
+.sideMenu {
+  min-width: 270px;
+  height: 100%;
+  background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.colorPicker {
+  height: 30%;
+  width: 95%;
+}
+
+.colorRow {
+  display: flex;
+  height: 40px;
+  width: 95%;
+  gap: 10px;
+}
+
+.chosenColor {
+  height: 100%;
+  width: 20%;
+}

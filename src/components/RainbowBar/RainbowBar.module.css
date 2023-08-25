@@ -1,0 +1,5 @@
+.rainbowBar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, red 0%, orange 20%, yellow 40%, green 60%, blue 80%, purple 100%);
+}
