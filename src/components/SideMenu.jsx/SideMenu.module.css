@@ -1,5 +1,5 @@
 .sideMenu {
-  min-width: 270px;
+  width: 350px;
   height: 100%;
   background-color: grey;
   display: flex;
@@ -7,16 +7,23 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
+  position: relative;
 }
 
-.colorPicker {
-  height: 30%;
-  width: 95%;
-}
-
-.colorRow {
+.siteName {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 35px;
   display: flex;
-  height: 40px;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
   width: 95%;
   gap: 10px;
 }
@@ -24,4 +31,20 @@
 .chosenColor {
   height: 100%;
   width: 20%;
+  border-radius: 10px;
+}
+
+.button {
+  position: relative;
+  width: 100%;
+  max-width: 140px;
+  min-height: 70px;
+  border-radius: 10px;
+  border-top: none;
+  border-left: none;
+}
+
+.button img {
+  max-width: 40px;
+  max-height: 50px;
 }
