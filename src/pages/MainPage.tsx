@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PaintCanvas from "../components/PaintCanvas/PaintCanvas";
 import SideMenu from "../components/SideMenu.jsx/SideMenu";
+import SnakeCanvas from "../components/SnakeGame/SnakeCanvas";
 import styles from "./MainPage.module.css";
 
 const MainPage = () => {
@@ -8,6 +9,7 @@ const MainPage = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [coords, setCoords] = useState({x: 0, y: 0});
   const [brushSize, setBrushSize] = useState(1.5);
+  const [playSnake, setPlaySnake] = useState(false);
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
@@ -34,12 +36,14 @@ const MainPage = () => {
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <PaintCanvas draw={draw} isMouseDown={isMouseDown}/>
+      {playSnake ? <PaintCanvas draw={draw} isMouseDown={isMouseDown}/> : <SnakeCanvas />}
       <SideMenu
         paintColor={paintColor}
         setPaintColor={setPaintColor}
         brushSize={brushSize}
         setBrushSize={setBrushSize}
+        playSnake={playSnake}
+        setPlaySnake={setPlaySnake}
       />
     </div>
   )

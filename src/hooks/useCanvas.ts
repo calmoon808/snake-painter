@@ -16,6 +16,7 @@ const useCanvas = (
   
       const render = () => {
         if (context) {
+          context.clearRect(0, 0, canvas.width, canvas.height)
           draw(context);
         }
         animationFrameId = window.requestAnimationFrame(render);
