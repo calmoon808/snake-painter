@@ -3,8 +3,8 @@ import styles from "./PaintCanvas.module.css";
 import useCanvas from "../../hooks/useCanvas";
 
 interface Props {
-  isMouseDown: boolean,
   draw: (ctx: CanvasRenderingContext2D) => void
+  isMouseDown: boolean,
 }
 
 const PaintCanvas = (props: Props) => {
@@ -12,10 +12,19 @@ const PaintCanvas = (props: Props) => {
   const canvasRef = useCanvas(draw, isMouseDown);
 
   useEffect(() => {
-    const parentDiv = document.getElementById("paintCanvas");
-    if (canvasRef.current && parentDiv) {
-      canvasRef.current.width = parentDiv.offsetWidth;
-      canvasRef.current.height = parentDiv.offsetHeight;
+    const handleCanvasSize = () => {
+      const parentDiv = document.getElementById("paintCanvas");
+      if (canvasRef.current && parentDiv) {
+        canvasRef.current.width = parentDiv.offsetWidth;
+        canvasRef.current.height = parentDiv.offsetHeight;
+      }
+    };
+    handleCanvasSize();
+
+    window.addEventListener("resize", handleCanvasSize)
+    
+    return () => {
+      window.removeEventListener("resize", handleCanvasSize)
     }
   }, [])
 

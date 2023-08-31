@@ -9,11 +9,13 @@ interface Props {
   paintColor: string,
   setPaintColor: React.Dispatch<React.SetStateAction<string>>,
   brushSize: number,
-  setBrushSize: React.Dispatch<React.SetStateAction<number>>
+  setBrushSize: React.Dispatch<React.SetStateAction<number>>,
+  playSnake: boolean,
+  setPlaySnake: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 const SideMenu = (props: Props) => {
-  const { paintColor, setPaintColor, brushSize, setBrushSize } = props;
+  const { paintColor, setPaintColor, brushSize, setBrushSize, playSnake, setPlaySnake } = props;
   const [baseColor, setBaseColor] = useState("000000");
   const [prevBrushColor, setPrevBrushColor] = useState("");
 
@@ -27,6 +29,10 @@ const SideMenu = (props: Props) => {
     }
     setPaintColor("#ffffff");
   };
+
+  const handleSnakeClick = () => {
+    setPlaySnake(!playSnake)
+  }
 
   return (
     <div className={styles.sideMenu}>
