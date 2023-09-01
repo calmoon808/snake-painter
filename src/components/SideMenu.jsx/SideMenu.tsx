@@ -51,7 +51,7 @@ const SideMenu = (props: Props) => {
         <button className={styles.button} onClick={handleEraserClick}>
           <img src="/icons/eraser.png" />
         </button>
-        <button className={styles.button}>
+        <button className={styles.button} onClick={handleSnakeClick}>
           <img src="/icons/snake.png" />
         </button>
       </div>
