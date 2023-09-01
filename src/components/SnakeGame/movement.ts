@@ -1,8 +1,9 @@
 import { Position } from "../../hooks/useGameLogic";
 import { SEGMENT_SIZE } from "./drawSnake";
 
-const createSnakeMovement = (gridSize = SEGMENT_SIZE) => ({
+const createSnakeMovement = (foodPosition: Position | undefined) => ({
   moveRight: (snakeBody: Position[]) => {
+    let didEat = false;
     const newSnake: Position[] = [
       {
         ...snakeBody[0],
@@ -10,10 +11,17 @@ const createSnakeMovement = (gridSize = SEGMENT_SIZE) => ({
       }
     ]
     newSnake.push(...snakeBody);
-    newSnake.pop();
-    return newSnake;
+    if (foodPosition) {
+      if (newSnake[0].x !== foodPosition.x || newSnake[0].y !== foodPosition.y) {
+        newSnake.pop();
+      } else if (newSnake[0].x === foodPosition.x || newSnake[0].y === foodPosition.y) {
+        didEat = true;
+      }
+    }
+    return { newSnake, didEat };
   },
   moveLeft: (snakeBody: Position[]) => {
+    let didEat = false;
     const newSnake: Position[] = [
       {
         ...snakeBody[0],
@@ -21,10 +29,17 @@ const createSnakeMovement = (gridSize = SEGMENT_SIZE) => ({
       }
     ]
     newSnake.push(...snakeBody);
-    newSnake.pop();
-    return newSnake;
+    if (foodPosition) {
+      if (newSnake[0].x !== foodPosition.x || newSnake[0].y !== foodPosition.y) {
+        newSnake.pop();
+      } else if (newSnake[0].x === foodPosition.x || newSnake[0].y === foodPosition.y) {
+        didEat = true;
+      }
+    }
+    return { newSnake, didEat };
   },
   moveUp: (snakeBody: Position[]) => {
+    let didEat = false;
     const newSnake: Position[] = [
       {
         ...snakeBody[0],
@@ -32,10 +47,17 @@ const createSnakeMovement = (gridSize = SEGMENT_SIZE) => ({
       }
     ]
     newSnake.push(...snakeBody);
-    newSnake.pop();
-    return newSnake;
+    if (foodPosition) {
+      if (newSnake[0].x !== foodPosition.x || newSnake[0].y !== foodPosition.y) {
+        newSnake.pop();
+      } else if (newSnake[0].x === foodPosition.x || newSnake[0].y === foodPosition.y) {
+        didEat = true;
+      }
+    }
+    return { newSnake, didEat };
   },
   moveDown: (snakeBody: Position[]) => {
+    let didEat = false;
     const newSnake: Position[] = [
       {
         ...snakeBody[0],
@@ -43,8 +65,14 @@ const createSnakeMovement = (gridSize = SEGMENT_SIZE) => ({
       }
     ]
     newSnake.push(...snakeBody);
-    newSnake.pop();
-    return newSnake;
+    if (foodPosition) {
+      if (newSnake[0].x !== foodPosition.x || newSnake[0].y !== foodPosition.y) {
+        newSnake.pop();
+      } else if (newSnake[0].x === foodPosition.x || newSnake[0].y === foodPosition.y) {
+        didEat = true;
+      }
+    }
+    return { newSnake, didEat };
   },
 })
 

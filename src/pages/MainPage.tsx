@@ -9,7 +9,7 @@ const MainPage = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [coords, setCoords] = useState({x: 0, y: 0});
   const [brushSize, setBrushSize] = useState(1.5);
-  const [playSnake, setPlaySnake] = useState(false);
+  const [playSnake, setPlaySnake] = useState(true);
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
@@ -36,7 +36,7 @@ const MainPage = () => {
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      {playSnake ? <PaintCanvas draw={draw} isMouseDown={isMouseDown}/> : <SnakeCanvas />}
+      {playSnake ? <SnakeCanvas /> : <PaintCanvas draw={draw} isMouseDown={isMouseDown}/>}
       <SideMenu
         paintColor={paintColor}
         setPaintColor={setPaintColor}

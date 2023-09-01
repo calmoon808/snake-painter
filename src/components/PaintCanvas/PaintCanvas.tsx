@@ -9,7 +9,7 @@ interface Props {
 
 const PaintCanvas = (props: Props) => {
   const { draw, isMouseDown } = props;
-  const canvasRef = useCanvas(draw, isMouseDown);
+  const canvasRef = useCanvas(draw, isMouseDown, false);
 
   useEffect(() => {
     const handleCanvasSize = () => {

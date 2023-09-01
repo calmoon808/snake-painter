@@ -2,7 +2,8 @@ import React, { useRef, useEffect } from "react";
 
 const useCanvas = (
   draw: (ctx: CanvasRenderingContext2D) => void,
-  isMouseDown: boolean
+  isMouseDown: boolean,
+  playSnake: boolean 
 ) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -16,7 +17,7 @@ const useCanvas = (
   
       const render = () => {
         if (context) {
-          context.clearRect(0, 0, canvas.width, canvas.height)
+          if (playSnake) context.clearRect(0, 0, canvas.width, canvas.height)
           draw(context);
         }
         animationFrameId = window.requestAnimationFrame(render);
