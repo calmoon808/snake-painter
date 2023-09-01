@@ -1,1 +1,1 @@
-# pixel-painter
+# snake-painter
