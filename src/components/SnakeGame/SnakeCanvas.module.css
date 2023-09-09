@@ -5,3 +5,18 @@
   overflow: hidden;
   position: relative;
 }
+
+.startButton {
+  position: absolute;
+  top: 51%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 25px;
+  border: none;
+  background: white;
+}
+
+.startButton:hover {
+  color: red;
+}
