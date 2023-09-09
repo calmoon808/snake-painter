@@ -4,6 +4,7 @@ import ColorPicker from "../ColorPicker/ColorPicker";
 import RainbowBar from "../RainbowBar/RainbowBar";
 import SizePicker from "../SizePicker/SizePicker";
 import BrushSizeIndicator from "../BrushSizeIndicator/BrushSizeIndicator";
+import ScoreBoard from "../ScoreBoard/ScoreBoard";
 
 interface Props {
   paintColor: string,
@@ -12,10 +13,11 @@ interface Props {
   setBrushSize: React.Dispatch<React.SetStateAction<number>>,
   playSnake: boolean,
   setPlaySnake: React.Dispatch<React.SetStateAction<boolean>>,
+  score: number,
 }
 
 const SideMenu = (props: Props) => {
-  const { paintColor, setPaintColor, brushSize, setBrushSize, playSnake, setPlaySnake } = props;
+  const { paintColor, setPaintColor, brushSize, setBrushSize, playSnake, setPlaySnake, score } = props;
   const [baseColor, setBaseColor] = useState("000000");
   const [prevBrushColor, setPrevBrushColor] = useState("");
 
@@ -37,8 +39,9 @@ const SideMenu = (props: Props) => {
   return (
     <div className={styles.sideMenu}>
       <div className={styles.siteName}>
-        PIXEL PAINTER
+        SNAKE PAINTER
       </div>
+      {playSnake && <ScoreBoard score={score} />}
       <ColorPicker setPaintColor={props.setPaintColor} baseColor={baseColor} />
       <div className={styles.row}>
         <div className={`${styles.chosenColor}`} style={{ backgroundColor: `${paintColor}` }} />
