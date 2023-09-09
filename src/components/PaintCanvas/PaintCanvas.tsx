@@ -1,32 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./PaintCanvas.module.css";
-import useCanvas from "../../hooks/useCanvas";
 
-interface Props {
-  draw: (ctx: CanvasRenderingContext2D) => void
-  isMouseDown: boolean,
+interface PaintCanvasProps {
+  canvasRef: React.RefObject<HTMLCanvasElement>,
 }
 
-const PaintCanvas = (props: Props) => {
-  const { draw, isMouseDown } = props;
-  const canvasRef = useCanvas(draw, isMouseDown, false);
-
-  useEffect(() => {
-    const handleCanvasSize = () => {
-      const parentDiv = document.getElementById("paintCanvas");
-      if (canvasRef.current && parentDiv) {
-        canvasRef.current.width = parentDiv.offsetWidth;
-        canvasRef.current.height = parentDiv.offsetHeight;
-      }
-    };
-    handleCanvasSize();
-
-    window.addEventListener("resize", handleCanvasSize)
-    
-    return () => {
-      window.removeEventListener("resize", handleCanvasSize)
-    }
-  }, [])
+const PaintCanvas = (props: PaintCanvasProps) => {
+  const { canvasRef } = props;
 
   return (
     <div id="paintCanvas" className={styles.paintCanvas}>

@@ -1,37 +1,48 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import styles from "./SnakeCanvas.module.css";
-import { drawSnake } from "./drawSnake";
-import useCanvas from "../../hooks/useCanvas";
-import useGameLogic from "../../hooks/useGameLogic";
+import { Direction, Position } from "../../hooks/useGameLogic";
 
-const SnakeCanvas = () => {
-  const [canvasWidth, setCanvasWidth] = useState(0);
-  const [canvasHeight, setCanvasHeight] = useState(0);
-  const { snakeBody, handleOnKeyDown, foodPosition } = useGameLogic({ canvasHeight, canvasWidth });
+interface SnakeCanvasProps {
+  canvasRef: React.RefObject<HTMLCanvasElement>,
+  snakeBody: Position[],
+  handleOnKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void,
+  foodPosition: Position | undefined,
+  gameStart: boolean,
+  setGameStart: React.Dispatch<React.SetStateAction<boolean>>,
+  gameOver: boolean,
+  setGameOver: React.Dispatch<React.SetStateAction<boolean>>,
+  setSnakeDir: React.Dispatch<React.SetStateAction<Direction | undefined>>
+}
 
-  const draw = (ctx: CanvasRenderingContext2D) => {
-    drawSnake({ ctx, snakeBody, foodPosition })
-  }
-
-  const canvasRef = useCanvas(draw, true, true)
+const SnakeCanvas = (props: SnakeCanvasProps) => {
+  const {
+    canvasRef,
+    handleOnKeyDown,
+    gameStart,
+    setGameStart,
+    gameOver,
+    setGameOver,
+    setSnakeDir,
+  } = props;
 
   useEffect(() => {
-    const handleCanvasSize = () => {
-      const parentDiv = document.getElementById("snakeCanvas");
-      if (canvasRef.current && parentDiv) {
-        canvasRef.current.width = parentDiv.offsetWidth;
-        setCanvasWidth(parentDiv.offsetWidth);
-        canvasRef.current.height = parentDiv.offsetHeight;
-        setCanvasHeight(parentDiv.offsetHeight);
+    if (gameStart) {
+      if (canvasRef.current) canvasRef.current.focus(); // Set focus on canvas when the game starts
+      if (!localStorage.getItem("highScore")) {
+        localStorage.setItem("highScore", "0")
       }
-    };
-    handleCanvasSize();
-    window.addEventListener("resize", handleCanvasSize)
-    
-    return () => {
-      window.removeEventListener("resize", handleCanvasSize)
     }
-  }, [])
+  }, [gameStart]);
+
+  const handleStartButtonClick = () => {
+    setSnakeDir(Direction.RIGHT)
+    setGameStart(true);
+  }
+
+  const handleGameOverButtonClick = () => {
+    setGameStart(false);
+    setGameOver(false);
+  }
 
   return (
     <div 
@@ -40,7 +51,19 @@ const SnakeCanvas = () => {
       tabIndex={-1}
       onKeyDown={handleOnKeyDown}
     >
-      <canvas ref={canvasRef} />
+      {!gameStart && <button
+          className={styles.startButton}
+          onClick={handleStartButtonClick}
+        >
+          START
+        </button>}
+      {gameOver && <button
+        className={styles.startButton}
+        onClick={handleGameOverButtonClick}
+      >
+        GAME OVER
+      </button>}
+      <canvas tabIndex={-1} ref={canvasRef} />
     </div>
   )
 }
