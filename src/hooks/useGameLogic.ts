@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import useInterval from "./useInterval";
 import createSnakeMovement from "../components/SnakeGame/movement";
 import { SEGMENT_SIZE } from "../components/SnakeGame/drawSnake";
@@ -14,28 +14,30 @@ export interface Position {
   y: number;
 }
 
-enum Direction {
+export enum Direction {
   UP,
   DOWN,
   LEFT,
   RIGHT
 }
 
-const MOVEMENT_SPEED = 75;
+let MOVEMENT_SPEED = 75; // 75 = easy/slowest - 15 = very hard/fastest
 
 const useGameLogic = ({ canvasHeight, canvasWidth }: UseGameLogicArgs) => {
   const [snakeDir, setSnakeDir] = useState<Direction>();
   const [startingPosX, setStartingPosX] = useState(SEGMENT_SIZE * -3)
   const [startingPosY, setStartingPosY] = useState(SEGMENT_SIZE * -3)
+  const [gameStart, setGameStart] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [foodPosition, setFoodPosition] = useState<Position | undefined>()
-
+  const [foodPosition, setFoodPosition] = useState<Position | undefined>();
+  const [isSnakeMoving, setIsSnakeMoving] = useState(false);
   const [snakeBody, setSnakeBody] = useState<Position[]>([
     {
       x: startingPosX,
       y: startingPosY
     }
-  ])
+  ]);
+  const [score, setScore] = useState(0);
   
   useEffect(() => {
     const canvas = document.getElementById("snakeCanvas")
@@ -49,7 +51,7 @@ const useGameLogic = ({ canvasHeight, canvasWidth }: UseGameLogicArgs) => {
       const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody })
       setFoodPosition(newFoodPos)
     }
-  }, [canvasHeight, canvasWidth])
+  }, [canvasHeight, canvasWidth, gameStart])
 
   useEffect(() => {
     setSnakeBody([
@@ -66,30 +68,43 @@ const useGameLogic = ({ canvasHeight, canvasWidth }: UseGameLogicArgs) => {
         y: startingPosY,
       }
     ])
-  }, [startingPosX, startingPosY])
+  }, [startingPosX, startingPosY, gameOver]);
+
+  useEffect(() => {
+    // decrement speed/increasedifficulty by 5 each time player scores 3 points
+    if (score % 3 === 0 && MOVEMENT_SPEED > 15) {
+      MOVEMENT_SPEED -= 5;
+    }
+  }, [score]);
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (isSnakeMoving) return;
     switch (e.code) {
       case "KeyW":
       case "ArrowUp":
+        setIsSnakeMoving(true);
         if (snakeDir !== Direction.DOWN) setSnakeDir(Direction.UP)
         break;
       case "KeyS":
       case "ArrowDown":
+        setIsSnakeMoving(true);
         if (snakeDir !== Direction.UP) setSnakeDir(Direction.DOWN)
         break;
       case "KeyA":
       case "ArrowLeft":
+        setIsSnakeMoving(true);
         if (snakeDir !== Direction.RIGHT) setSnakeDir(Direction.LEFT)
         break;
       case "KeyD":
       case "ArrowRight":
+        setIsSnakeMoving(true);
         if (snakeDir !== Direction.LEFT) setSnakeDir(Direction.RIGHT)
         break;
     }
   }
 
   const gameOverCheck = () => {
+    if (!gameStart) return;
     const canvas = document.getElementById("snakeCanvas")
     if (canvas) {
       const head = snakeBody[0];
@@ -102,7 +117,7 @@ const useGameLogic = ({ canvasHeight, canvasWidth }: UseGameLogicArgs) => {
         }
       })
 
-      if (head.x > canvas.offsetWidth || head.x < -SEGMENT_SIZE || head.y > canvas.offsetHeight || head.y < -SEGMENT_SIZE) {
+      if (head.x > canvas.offsetWidth || head.x < 0 || head.y > canvas.offsetHeight || head.y < -SEGMENT_SIZE) {
         setGameOver(true);
       }
     }
@@ -119,51 +134,72 @@ const useGameLogic = ({ canvasHeight, canvasWidth }: UseGameLogicArgs) => {
         newSnake = moveUp(snakeBody);
         newSnakeBody = newSnake.newSnake
         if (newSnake.didEat) {
-          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody })
-          setFoodPosition(newFoodPos)
+          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody });
+          setFoodPosition(newFoodPos);
+          setScore(score + 1)
         }
         setSnakeBody(newSnakeBody);
+        setIsSnakeMoving(false);
         break;
       case Direction.DOWN:
         newSnake = moveDown(snakeBody);
         newSnakeBody = newSnake.newSnake;
         if (newSnake.didEat) {
-          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody })
-          setFoodPosition(newFoodPos)
+          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody });
+          setFoodPosition(newFoodPos);
+          setScore(score + 1)
         }
         setSnakeBody(newSnakeBody);
+        setIsSnakeMoving(false);
         break;
       case Direction.LEFT:
         newSnake = moveLeft(snakeBody);
         newSnakeBody = newSnake.newSnake;
         if (newSnake.didEat) {
-          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody })
-          setFoodPosition(newFoodPos)
+          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody });
+          setFoodPosition(newFoodPos);
+          setScore(score + 1)
         }
         setSnakeBody(newSnakeBody);
+        setIsSnakeMoving(false);
         break;
       case Direction.RIGHT:
         newSnake = moveRight(snakeBody)
         newSnakeBody = newSnake.newSnake;
         if (newSnake.didEat) {
-          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody })
-          setFoodPosition(newFoodPos)
+          const newFoodPos = generateRandomFoodPos({ segmentSize: SEGMENT_SIZE, snakeCanvas: canvas, snakeBody });
+          setFoodPosition(newFoodPos);
+          setScore(score + 1)
         }
         setSnakeBody(newSnakeBody);
+        setIsSnakeMoving(false);
         break;
     }
   }
 
   useEffect(() => {
-    if(gameOver) console.log("game over!")
+    if (!gameOver) return;
+    let highScoreStr = localStorage.getItem("highScore");
+    if (highScoreStr) {
+      if (score > parseInt(highScoreStr)) {
+        localStorage.setItem("highScore", `${score}`)
+      }
+    }
+    setScore(0);
   }, [gameOver])
 
-  useInterval(moveSnake, gameOver ? null : MOVEMENT_SPEED)
+  useInterval(moveSnake, (gameOver || !gameStart) ? null : MOVEMENT_SPEED)
 
   return {
     snakeBody,
     handleOnKeyDown,
-    foodPosition
+    foodPosition,
+    score,
+    gameStart,
+    setGameStart,
+    gameOver,
+    setGameOver,
+    setSnakeDir,
   }
 }
 
