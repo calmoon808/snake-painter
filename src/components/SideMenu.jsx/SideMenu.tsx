@@ -49,13 +49,13 @@ const SideMenu = (props: Props) => {
       </div>
       <div className={styles.row}>
         <button className={styles.button} onClick={handleBrushClick}>
-          <img src="/icons/paintbrush.png" />
+          <img src={require("../../assets/icons/paintbrush.png")} />
         </button>
         <button className={styles.button} onClick={handleEraserClick}>
-          <img src="/icons/eraser.png" />
+          <img src={require("../../assets/icons/eraser.png")} />
         </button>
         <button className={styles.button} onClick={handleSnakeClick}>
-          <img src="/icons/snake.png" />
+          <img src={require("../../assets/icons/snake.png")} />
         </button>
       </div>
       <div className={styles.row}>
