@@ -7,8 +7,15 @@ interface Props {
 
 const SizePicker = (props: Props) => {
   const { setBrushSize } = props;
-  const [sliderXPos, setSliderXPos] = useState(0);
+  const [sliderXPos, setSliderXPos] = useState(45);
   const [sliderXPosPercentage, setSliderXPosPercentage] = useState(0);
+
+  useEffect(() => {
+    const sizePickerElRect = document.getElementById("size-picker")?.getBoundingClientRect();
+    if (sizePickerElRect) {
+      setSliderXPosPercentage(parseFloat((sliderXPos / sizePickerElRect.width).toFixed(2)))
+    }
+  }, [])
 
   useEffect(() => {
     interpolateSize(sliderXPosPercentage)
@@ -39,8 +46,9 @@ const SizePicker = (props: Props) => {
   } 
 
   return (
-    <div id="bruh" className={styles.container} onClick={(e) => handleClick(e)}>
+    <div className={styles.container} onClick={(e) => handleClick(e)}>
       <div
+        id="size-picker"
         className={styles.sizePicker}
       >
         <div
