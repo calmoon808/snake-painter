@@ -40,7 +40,7 @@ const MainPage = () => {
     ctx.lineWidth = brushSize * 2
     ctx.moveTo(prevCoords.x, prevCoords.y);
     ctx.lineTo(coords.x, coords.y);
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = paintColor;
     ctx.stroke();
     ctx.closePath();
   }
