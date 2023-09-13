@@ -13,7 +13,7 @@ const MainPage = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [coords, setCoords] = useState({x: 0, y: 0});
   const [brushSize, setBrushSize] = useState(1.5);
-  const [playSnake, setPlaySnake] = useState(true);
+  const [playSnake, setPlaySnake] = useState(false);
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const {
