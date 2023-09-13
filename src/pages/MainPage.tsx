@@ -11,6 +11,7 @@ const SEGMENT_SIZE = 15;
 const MainPage = () => {
   const [paintColor, setPaintColor] = useState("#000000");
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [prevCoords, setPrevCoords] = useState({x: 0, y: 0});
   const [coords, setCoords] = useState({x: 0, y: 0});
   const [brushSize, setBrushSize] = useState(1.5);
   const [playSnake, setPlaySnake] = useState(false);
@@ -33,6 +34,14 @@ const MainPage = () => {
     ctx.arc(coords.x, coords.y, brushSize, 0, Math.PI * 2, false);
     ctx.fillStyle = paintColor;
     ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.lineWidth = brushSize * 2
+    ctx.moveTo(prevCoords.x, prevCoords.y);
+    ctx.lineTo(coords.x, coords.y);
+    ctx.strokeStyle = "black";
+    ctx.stroke();
     ctx.closePath();
   }
 
@@ -69,14 +78,18 @@ const MainPage = () => {
   }, [playSnake])
 
   const handleWindowMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setPrevCoords({
+      x: coords.x,
+      y: coords.y,
+    })
     setCoords({
       x: e.clientX,
       y: e.clientY,
     });
   };
 
-  const handleMouseDown = () => setIsMouseDown(true);
-  const handleMouseUp = () => setIsMouseDown(false);
+  const handleMouseDown = () => { if (!isMouseDown) setIsMouseDown(true); }
+  const handleMouseUp = () => { if (isMouseDown) setIsMouseDown(false); }
 
   return (
     <div
