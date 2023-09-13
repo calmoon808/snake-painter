@@ -1,34 +1,28 @@
-# snake-painter
+## Snake Painter
+[Snake Painter](https://snake-painter.vercel.app/)
 
-## Table of Contents
+An online paint application used to kill boredom and boost creativity, built with React, JavaScript, and CSS.
 
-- [Overview](#overview)
-- [Built With](#built-with)
-- [Features](#features)
-- [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
+## Installation and Setup Instructions
 
-## Overview
+Clone down this repository. You will need `node` and `npm` installed globally on your machine.  
 
-<!-- TODO: Add a screenshot of the live project.
-    1. Link to a 'live demo.'
-    2. Describe your overall experience in a couple of sentences.
-    3. List a few specific technical things that you learned or improved on.
-    4. Share any other tips or guidance for others attempting this or something similar.
- -->
+Installation:
 
-### Built With
+`npm install`  
 
-<!-- TODO: List any MAJOR libraries/frameworks (e.g. React, Tailwind) with links to their homepages. -->
+To Start Server:
 
-## Features
+`npm start`  
 
-<!-- TODO: List what specific 'user problems' that this application solves. -->
+To Visit App:
 
-## Contact
+`localhost:5000/`
 
-<!-- TODO: Include icons and links to your RELEVANT, PROFESSIONAL 'DEV-ORIENTED' social media. LinkedIn and dev.to are minimum. -->
+## Reflection
 
-## Acknowledgements
+I wanted to build an online painting application that was better than the one I had built during my time at bootcamp. The previous iteration utilized a grid where each grid square had several eventhandlers that would control what got painted. This was fine at first, but as the grid squares grew smaller to add more pixels, performance issues started to arise as more than 60 events were being triggered in a second. To remedy the performance issues, I opted to use the canvas element which worked out far better as the canvas essentially only needs coordinates and a draw function to "paint".
 
-<!-- TODO: List any blog posts, tutorials or plugins that you may have used to complete the project. Only list those that had a significant impact. Obviously, we all 'Google' stuff while working on our things, but maybe something in particular stood out as a 'major contributor' to your skill set for this project. -->
+One of the main challenges was to have a consistent performance throughout different clients, as depending on your hardware or internet speed the paint coordinates would not update "properly". To remedy this, I modified the draw function to draw a straightline between the current and previous mouse positions.
+
+At the end of the day, the technologies implemented in this project are React, Typescript and CSS. I chose to use webpack instead of CRA as I wanted to have better control of what was being bundled.
