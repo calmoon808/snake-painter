@@ -8,7 +8,7 @@
 
 .startButton {
   position: absolute;
-  top: 51%;
+  top: 50.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Press Start 2P', cursive;
